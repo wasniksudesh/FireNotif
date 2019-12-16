@@ -1,30 +1,7 @@
-import { Component, OnInit ,Inject,NgModule} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormsModule} from '@angular/forms';
-import { Routes, RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as firebase from 'firebase';
-import '@firebase/firestore'
+import { Component} from '@angular/core';
 
-
-const settings = {timestampsInSnapshots: true};
-const config = {
-  apiKey: "AIzaSyD0SiHIL2iEsJ7CnZYeBhPIvpXbWoh6kAU",
-  authDomain: "firenotif-sudesh.firebaseapp.com",
-  databaseURL: "https://firenotif-sudesh.firebaseio.com",
-  projectId: "firenotif-sudesh",
-  storageBucket: "firenotif-sudesh.appspot.com",
-  messagingSenderId: "328330242422",
-  appId: "1:328330242422:web:c2b97719ffe3cb4a8af257",
-  measurementId: "G-S5P0E95X2W"
-};
-
-firebase.initializeApp(config);
-firebase.firestore().settings(settings)
-
+import {  Router, ActivatedRoute } from '@angular/router';
+import {UserserviceService} from '../userservice.service'
 export interface DialogData {
   userid: string;
   password: string;
@@ -34,50 +11,30 @@ export interface DialogData {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-
-  constructor(private dialog: MatDialog ,private router:Router,private route:ActivatedRoute ) {}
-  userid: string;
+export class LoginComponent  {
+  userid : string;
   password: string;
-  final: DialogData;
-  ref = firebase.firestore().collection('newone').doc('first');
-
-  openDialog(): void {
-
-    const dialogRef = this.dialog.open(RegisterFun, {
-      width: '250px',
-      data:{ userid: this.userid, password : this.password}
-    });
-    dialogRef.afterClosed().subscribe(
-      data=>this.final=data
-      )
-    dialogRef.afterClosed().subscribe(
-      data=>console.log(this.final,"gold haiye")
-    )
-    dialogRef.afterClosed().subscribe(data=> console.log(this.register(this.final)))
+  loginmap;
+  pass = false;
+  constructor(private userservice:UserserviceService ,private router:Router,private route:ActivatedRoute ) {}
+  ngOnInit(){
+    this.userservice.getinfo().subscribe(res => (this.loginmap=res.payload.data(), console.log("Found map!",this.loginmap)))
   }
-    register(data): void{
-      this.ref.set(data)
+
+  onSubmit(){
+    this.pass=true;
+    console.log(this.loginmap.loginmap[this.userid],this.password)
+    if (this.loginmap.loginmap[this.userid][0] === this.password ) {
+      // this.router.navigate("/home")
+      console.log('matched bro!!!',this.loginmap.loginmap[this.userid][1]);
+      localStorage.setItem("id",this.loginmap.loginmap[this.userid][1])
+    } else {
+      console.log('not matched macha');
+      this.password=""
+      this.userid = ""
     }
+  }
   
-  ngOnInit() { }
 }
 
 
-@Component({
-  selector: 'registerfun',
-  templateUrl: 'fun.html',
-})
-export class RegisterFun {
-
-  constructor(
-    public dialogRef: MatDialogRef<RegisterFun>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  save():void{
-    this.dialogRef.close(this.data);
-  }
-}

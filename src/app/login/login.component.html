@@ -1,11 +1,31 @@
+LOGIN PAGE
 
-<button (click)="openDialog()"> Register </button>
+<input placeholder="UserId" [(ngModel)]="this.userid"
+type="text" 
+class="input-field col s12">
 
 
+<input placeholder="Password"  [(ngModel)]="this.password"
+type="password" 
+class="input-field col s12">
+<div>
+<button 
+class="waves-effect waves-light btn col s12" 
+(click)="onSubmit()" >
+ Login bro!!!
+ </button>
+ <li *ngIf="pass && this.password">  Wrong Information.. Please try again </li>
+ </div>
 
-<br>
+ <button 
+ class="waves-effect waves-light btn col s12" >
+ <a [routerLink]="['/register']">Register Here bro:!!!!</a>
+</button>
 
-  How this works in steps -- 
+
+ <br>
+ <br>
+How this works in steps -- 
 
   <br>
 1 - Use subscribe to enter details

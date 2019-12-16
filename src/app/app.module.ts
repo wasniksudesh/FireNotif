@@ -3,10 +3,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import {MatFormFieldModule, MatInputModule, MatDialogModule} from '@angular/material'
 import { AppComponent } from './app.component';
-import { LoginComponent, RegisterFun } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent,} from './login/login.component';
+import { RegisterComponent ,RegisterFun} from './register/register.component';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import{UserserviceService} from './userservice.service'
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,11 +25,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     BrowserAnimationsModule,
     FormsModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
   exports: [RegisterFun],
   entryComponents:[RegisterFun],
-  providers: [],
+  providers: [UserserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
