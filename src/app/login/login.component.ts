@@ -19,7 +19,7 @@ export class LoginComponent  {
   returnUrl;
   constructor(private userservice:UserserviceService ,private router:Router,private route:ActivatedRoute ) {}
   ngOnInit(){
-    this.userservice.getinfo().subscribe(res => (this.loginmap=res.payload.data(), console.log("Found map!",this.loginmap)))
+    this.userservice.getinfo().subscribe(res => (this.loginmap=res.data(), console.log("Found map!",this.loginmap)))
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     console.log("afasc",this.returnUrl);
 
@@ -35,8 +35,6 @@ export class LoginComponent  {
 
     } else {
       console.log('not matched macha');
-      this.password=""
-      this.userid = ""
     }
   }
   

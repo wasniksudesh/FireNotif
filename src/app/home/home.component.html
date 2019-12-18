@@ -1,1 +1,16 @@
-<p>home works!</p>
+<button class="waves-effect waves-light btn col s12"> Show requests </button>
+<br>
+<button class="waves-effect waves-light btn col s12"> Show Devices </button>
+<br>
+<button class="waves-effect waves-light btn col s12">Friends</button>
+<!-- <button (click)="getCoffeeOrders()"></button> -->
+<tbody>
+    <td>Devices are ----</td>
+    <tr *ngFor="let order of userinfo.Devices; let i=index">
+       {{i}} {{order}}
+    </tr>
+</tbody>
+
+
+
+

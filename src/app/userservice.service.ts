@@ -19,7 +19,7 @@ export class UserserviceService {
     Friends: [],
     Requests: []};
   getinfo(){
-    return this.account.snapshotChanges();
+    return this.account.get();
   }
   getvalue_getinfo(){
     return this.account.get().toPromise();
@@ -34,7 +34,9 @@ export class UserserviceService {
           poop.loginmap[data.userid]=[data.password,keyid];
           return poop
       }).then(res=>this.account.set(res));
-    
+  }
 
+  fullinfo(id){
+    return this.userinfo.doc(id).get().toPromise();
   }
 }
