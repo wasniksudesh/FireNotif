@@ -11,12 +11,20 @@ import{UserserviceService} from './userservice.service'
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {MessagingService} from './messaging.service'
+import { AsyncPipe } from '../../node_modules/@angular/common';
+import { HomeComponent } from './home/home.component';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    RegisterFun
+    RegisterFun,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -28,10 +36,13 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule
   ],
   exports: [RegisterFun],
   entryComponents:[RegisterFun],
-  providers: [UserserviceService],
+  providers: [UserserviceService,MessagingService,AsyncPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

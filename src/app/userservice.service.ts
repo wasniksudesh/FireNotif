@@ -15,14 +15,13 @@ export class UserserviceService {
   constructor(private firestore:AngularFirestore) { }
   account=this.firestore.collection("Accounts").doc("Accounts")
   userinfo=this.firestore.collection("UserInfo")
-  final= {  Devices: [],
+  final= {  Devices: [localStorage.getItem("tokenval")],
     Friends: [],
     Requests: []};
   getinfo(){
     return this.account.snapshotChanges();
   }
   getvalue_getinfo(){
-    console.log('this si fucking ')
     return this.account.get().toPromise();
   }
   setinfo(data){
